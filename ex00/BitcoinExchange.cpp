@@ -17,15 +17,17 @@ BitcoinExchange::BitcoinExchange(const BitcoinExchange &to_copy){
 
 }
 
-BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange &assign){
+void BitcoinExchange::swap(BitcoinExchange &other){
 
-    std::cout << COPY_ASSIGN_OP_MSG << BITCOINEXCHANGE_MSG;
-    if (this != &assign){
-        // ... assigning
-    }
-    return (*this);
-
+    this->_database.swap(other._database);
 }
+
+
+BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange other){
+
+    swap(other);
+    return (*this);
+};
 
 BitcoinExchange::~BitcoinExchange(){
 

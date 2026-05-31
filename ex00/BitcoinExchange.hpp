@@ -2,7 +2,13 @@
 # define BITCOINEXCHANGE_HPP
 
 // Includes:
-# include <iostream>
+#include <iostream>
+#include <string>
+#include <map>
+// #include <fstream>
+// #include <sstream>
+// #include <cstdlib>
+// #include <cctype>
 
 
 // Messages:
@@ -18,17 +24,25 @@
 class BitcoinExchange{
 
     private:
-        // ... some private stuff
+        std::map<std::string, float> _database;
+
+        std::string _trim(const std::string &str) const;
+        bool _isValidDate(const std::string &date) const;
+        bool _parseValue(const std::string &valStr, float &value, bool isInput) const;
 
     public:
         // Orthodox Canonical Form:
         BitcoinExchange();
-        BitcoinExchange(const BitcoinExchange &to_copy);
-        BitcoinExchange& operator=(const BitcoinExchange &assign);
+        BitcoinExchange(const BitcoinExchange &other);
+
+        void swap(BitcoinExchange &other);
+        BitcoinExchange& operator=(BitcoinExchange other);
+
         ~BitcoinExchange();
 
         // Other member functions:
-        // ... some members
+        void loadDatabase(const std::string &dbPath);
+        void processInput(const std::string &inputPath) const;
 
 };
 

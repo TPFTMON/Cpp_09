@@ -5,7 +5,7 @@
 
         • Step 1.3: Loop through the remaining lines. Split each string into two components using the comma , as a delimiter.
 
-        • Step 1.4: Convert the rate component into a floating-point number. Validate that the value is parsed cleanly.
+        • Step 1.4: First I will need a strict-trimming utility. Checks for empty file. Convert the rate component into a floating-point number. Validate that the value is parsed cleanly (strtod).
 
         • Step 1.5: Insert the entry into your std::map<std::string, float> database.
 
@@ -14,13 +14,17 @@
     GOAL 2: Input File Processing & String Parsing
         • Step 2.1: Verify argc == 2. Open the file specified by argv[1]. If it fails, output Error: could not open file. to standard output as shown in the subject example.
 
-        • Step 2.2: Execute a line-by-line loop using std::getline. If a line is empty, skip it or output a bad input error depending on style choice (the correction sheet states: "The program must not stop its execution before having performed the operations on the whole file").
+        • Step 2.2: kip the first line if it is exactly "date | value". When splitting by |, verify that both the left side (date) and right side (value) exist after trimming whitespace. If they don't, print the bad input error immediately.
 
-        • Step 2.3: Locate the pipe delimiter |. If it is absent, immediately print an error message (Error: bad input => [line_content]) and proceed to the next iteration.
+        • Step 2.3: Execute a line-by-line loop using std::getline. If a line is empty, skip it or output a bad input error depending on style choice (the correction sheet states: "The program must not stop its execution before having performed the operations on the whole file").
+
+        • Step 2.4: Locate the pipe delimiter |. If it is absent, immediately print an error message (Error: bad input => [line_content]) and proceed to the next iteration.
 
 
 
     GOAL 3: Deep Validation Phase
+        • Introduce a strict character-by-character digit check before attempting to convert the substrings to integers. (!)
+
         • Step 3.1: Date Formatting: Ensure the date string strictly conforms to YYYY-MM-DD (exactly 10 characters, with hyphens at index 4 and 7). Extract the Year, Month, and Day as integers.
 
         • Step 3.2: Chronological Limits: * Month must be between $1$ and $12$.
@@ -35,6 +39,8 @@
 
 
     GOAL 4: Historical Database Querying
+        • We must definitively check if (_database.empty()) immediately after attempting to load data.csv. If it is empty, the program must terminate, preventing any undefined iterator arithmetic later.
+
         • Step 4.1: Call database.upper_bound(input_date). This returns an iterator to the first element whose key is strictly greater than the requested date.
 
         • Step 4.2: Handle boundary scenarios:If the returned iterator equals database.begin(), it means the input date is older than any data point available in your database. Print an out-of-bounds historical error.Otherwise, decrement the iterator by one (--iterator). This moves it to the largest historical date that is less than or equal to your input date, which perfectly matches the assignment requirement.
