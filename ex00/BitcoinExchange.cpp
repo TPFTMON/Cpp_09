@@ -103,7 +103,7 @@ bool BitcoinExchange::_parseValue(const std::string &valStr, float &value, bool 
 
 
 
-void BitcoinExchange::loadDatabase(const std::string& dbPath){
+void BitcoinExchange::loadDatabase(const std::string &dbPath){
 
     std::ifstream file(dbPath.c_str());
     if (!file.is_open()){
@@ -135,7 +135,7 @@ void BitcoinExchange::loadDatabase(const std::string& dbPath){
     }
 }
 
-void BitcoinExchange::processInput(const std::string& inputPath) const{
+void BitcoinExchange::processInput(const std::string &inputPath) const{
 
     std::ifstream file(inputPath.c_str());
     if (!file.is_open()){
@@ -175,7 +175,7 @@ void BitcoinExchange::processInput(const std::string& inputPath) const{
             // it means it was completely invalid syntax.
             if (value != -1 && valStr.find_first_not_of(" \t\n\r\f\v") != std::string::npos){
                char* endptr;
-               double val = std::strtod(valStr.c_str(), &endptr);
+            //    double val = std::strtod(valStr.c_str(), &endptr);
                while (*endptr != '\0' && std::isspace(*endptr)) endptr++;
                if (*endptr != '\0'){
                    std::cerr << "Error: bad input => " << line << std::endl;

@@ -31,14 +31,11 @@ class BitcoinExchange{
 
         ~BitcoinExchange();
 
+        
         // Other member functions:
         void loadDatabase(const std::string &dbPath);
         void processInput(const std::string &inputPath) const;
 
 };
-
-
-// Other:
-// ...
 
 #endif
