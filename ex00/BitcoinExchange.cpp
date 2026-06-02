@@ -84,11 +84,11 @@ bool BitcoinExchange::_parseValue(const std::string &valStr, float &value, bool 
 
     if (isInput){
         if (val < 0){
-            std::cerr << "Error: not a positive number." << std::endl;
+            std::cerr << "Error: not a positive number. "/* << "\n"*/;
             return (false);
         }
         if (val > 1000.0){
-            std::cerr << "Error: a number is too large." << std::endl;
+            std::cerr << "Error: a number is too large. "/* << "\n"*/;
             return (false);
         }
     } else {
@@ -107,7 +107,7 @@ void BitcoinExchange::loadDatabase(const std::string &dbPath){
 
     std::ifstream file(dbPath.c_str());
     if (!file.is_open()){
-        std::cerr << "Error: could not open database file." << std::endl;
+        std::cerr << "Error: could not open database file." << "\n";
         std::exit(1); // For now with exit. But I'm thinking about exceptions
     }
 
@@ -130,7 +130,7 @@ void BitcoinExchange::loadDatabase(const std::string &dbPath){
     }
 
     if (_database.empty()){
-        std::cerr << "Error: database is empty or corrupted." << std::endl;
+        std::cerr << "Error: database is empty or corrupted." << "\n";
         std::exit(1);
     }
 }
@@ -139,7 +139,7 @@ void BitcoinExchange::processInput(const std::string &inputPath) const{
 
     std::ifstream file(inputPath.c_str());
     if (!file.is_open()){
-        std::cerr << "Error: could not open file." << std::endl;
+        std::cerr << "Error: could not open file." << "\n";
         return ;
     }
 
@@ -156,7 +156,7 @@ void BitcoinExchange::processInput(const std::string &inputPath) const{
 
         size_t pipePos = line.find('|');
         if (pipePos == std::string::npos){
-            std::cerr << "Error: bad input => " << line << std::endl;
+            std::cerr << BAD_INPUT << line << "\n";
             continue;
         }
 
@@ -164,7 +164,7 @@ void BitcoinExchange::processInput(const std::string &inputPath) const{
         std::string valStr = _trim(line.substr(pipePos + 1));
 
         if (!_isValidDate(date)){
-            std::cerr << "Error: bad input => " << date << std::endl;
+            std::cerr << BAD_INPUT << date << "\n";
             continue;
         }
 
@@ -173,25 +173,25 @@ void BitcoinExchange::processInput(const std::string &inputPath) const{
         if (!_parseValue(valStr, value, true)){
             // If it failed but didn't print "not a positive number" or "too large",
             // it means it was completely invalid syntax.
-            if (value != -1 && valStr.find_first_not_of(" \t\n\r\f\v") != std::string::npos){
-               char* endptr;
+            if (/*value != -1 && */valStr.find_first_not_of(" \t\n\r\f\v") != std::string::npos){
+                char* endptr;
             //    double val = std::strtod(valStr.c_str(), &endptr);
-               while (*endptr != '\0' && std::isspace(*endptr)) endptr++;
-               if (*endptr != '\0'){
-                   std::cerr << "Error: bad input => " << line << std::endl;
-               }
+                while (*endptr != '\0' && std::isspace(*endptr)) endptr++;
+                if (*endptr != '\0'){
+                    std::cerr << BAD_INPUT << line << "\n";
+                }
             }
             continue;
         }
 
         std::map<std::string, float>::const_iterator it = _database.upper_bound(date);
         if (it == _database.begin()){
-            std::cerr << "Error: date predates historical records => " << date << std::endl;
+            std::cerr << "Error: date predates historical records => " << date << "\n";
             continue;
         }
 
         --it;
         float rate = it->second;
-        std::cout << date << " => " << value << " = " << (value * rate) << std::endl;
+        std::cout << date << " => " << value << " = " << (value * rate) << "\n";
     }
 }

@@ -2,14 +2,16 @@
 # define BITCOINEXCHANGE_HPP
 
 // Includes:
-#include <iostream>
-#include <string>
-#include <map>
-#include <fstream>
-#include <sstream>
-#include <cstdlib>
-#include <cctype>
+# include <iostream>
+# include <string>
+# include <map>
+# include <fstream>
+# include <sstream>
+# include <cstdlib>
+# include <cctype>
 
+// Messages:
+# define BAD_INPUT "Error: bad input => "
 
 // Classes:
 class BitcoinExchange{
@@ -31,7 +33,7 @@ class BitcoinExchange{
 
         ~BitcoinExchange();
 
-        
+
         // Other member functions:
         void loadDatabase(const std::string &dbPath);
         void processInput(const std::string &inputPath) const;

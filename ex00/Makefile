@@ -6,7 +6,7 @@ OBJ_DIR		= obj
 
 CPP			= c++
 CMPFLAGS	= -Wall -Wextra -Werror -std=c++98
-CPPFLAGS	= -MMD -MP         # Flags to be able to create dependencies
+CPPFLAGS	= -MMD            # Flag to be able to create dependencies
 
 OBJS		= $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
 DEPS		= $(OBJS:.o=.d)

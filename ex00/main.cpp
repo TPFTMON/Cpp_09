@@ -3,8 +3,8 @@
 int main(int argc, char const *argv[]){
 
     if (argc != 2){
-        std::cerr << "Error: could not open file." << std::endl;
-        return 1;
+        std::cerr << "Error: could not open file." << "\n";
+        return (1);
     }
 
     BitcoinExchange btc;
