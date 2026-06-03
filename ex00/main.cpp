@@ -7,9 +7,16 @@ int main(int argc, char const *argv[]){
         return (1);
     }
 
-    BitcoinExchange btc;
-    btc.loadDatabase("data.csv");
-    btc.processInput(argv[1]);
-
+    try {
+        BitcoinExchange btc;
+        btc.loadDatabase("data.csv");
+        btc.processInput(argv[1]);
+    } catch (const std::exception& e) {
+        std::cerr << e.what() << "\n";
+        return (1);
+    }
+    
     return (0);
 }
+
+
