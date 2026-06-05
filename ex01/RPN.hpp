@@ -3,15 +3,13 @@
 
 // Includes:
 # include <iostream>
+# include <sstream>
+# include <stack>
+# include <cstdlib>
 
 
 // Messages:
-# define RPN_MSG "\e[0;32mRPN\n\e[0m"
-
-# define DEF_CONSTR_MSG "\e[0;33mDefault Constructor\e[0m called of "
-# define COPY_CONSTR_MSG "\e[0;33mCopy Constructor\e[0m called of "
-# define COPY_ASSIGN_OP_MSG "\e[0;35mCopy assignment operator\e[0m called of "
-# define DESTR_MSG "\e[0;31mDestructor\e[0m called of "
+// ...
 
 
 // Classes:

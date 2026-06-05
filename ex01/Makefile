@@ -1,6 +1,6 @@
-NAME		= 
+NAME		= RPN
 
-SRCS		=
+SRCS		= main.cpp RPN.cpp
 
 OBJ_DIR		= obj
 
