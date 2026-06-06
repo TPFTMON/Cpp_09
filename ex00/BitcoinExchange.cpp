@@ -66,46 +66,69 @@ bool BitcoinExchange::_isValidDate(const std::string &date) const{
     return (true);
 }
 
-bool BitcoinExchange::_parseValue(const std::string &valStr, float &value, bool isInput) const{
+BitcoinExchange::ParseStatus BitcoinExchange::_parseValue(const std::string &valStr, float &value, bool isInput) const{
 
-    if (valStr.empty()) return (false);
+    if (valStr.empty()) return (BAD_FORMAT);
 
     char* endptr;
     double val = std::strtod(valStr.c_str(), &endptr);
 
-    while (*endptr != '\0' && std::isspace(*endptr)){
-        endptr++;
-    }
+    while (*endptr != '\0' && std::isspace(*endptr)) endptr++;
 
-    if (*endptr != '\0'){
-        return (false); // Contains non-numeric junk
-    }
+    if (*endptr != '\0') return (BAD_FORMAT); // Contains non-numeric junk
 
     if (isInput){
-        if (val < 0){
-            std::cerr << "Error: not a positive number. " << "\n";
-            return (false);
-        }
-        if (val > 1000.0){
-            std::cerr << "Error: too large a number. " << "\n";
-            return (false);
-        }
+        if (val < 0) return (NOT_POSITIVE);
+
+        if (val > 1000.0) return (TOO_LARGE);
     } else {
-        if (val < 0){
-            return (false); // DB shouldn't have negative prices
-        }
+        if (val < 0) return (BAD_FORMAT); // DB shouldn't have negative prices
     }
 
     value = static_cast<float>(val);
-    return (true);
+    return (VALID);
 }
+
+// bool BitcoinExchange::_parseValue(const std::string &valStr, float &value, bool isInput) const{
+
+//     if (valStr.empty()) return (false);
+
+//     char* endptr;
+//     double val = std::strtod(valStr.c_str(), &endptr);
+
+//     while (*endptr != '\0' && std::isspace(*endptr)){
+//         endptr++;
+//     }
+
+//     if (*endptr != '\0'){
+//         return (false); // Contains non-numeric junk
+//     }
+
+//     if (isInput){
+//         if (val < 0){
+//             std::cerr << "Error: not a positive number. " << "\n";
+//             return (false);
+//         }
+//         if (val > 1000.0){
+//             std::cerr << "Error: too large a number. " << "\n";
+//             return (false);
+//         }
+//     } else {
+//         if (val < 0){
+//             return (false); // DB shouldn't have negative prices
+//         }
+//     }
+
+//     value = static_cast<float>(val);
+//     return (true);
+// }
 
 
 
 void BitcoinExchange::loadDatabase(const std::string &dbPath){
 
     std::ifstream file(dbPath.c_str());
-    if (!file.is_open()) {
+    if (!file.is_open()){
         throw std::runtime_error("Error: could not open database file.");
     }
 
@@ -122,12 +145,12 @@ void BitcoinExchange::loadDatabase(const std::string &dbPath){
         std::string rateStr = _trim(line.substr(commaPos + 1));
 
         float rate;
-        if (_isValidDate(date) && _parseValue(rateStr, rate, false)){
+        if (_isValidDate(date) && (_parseValue(rateStr, rate, false) == VALID)){
             _database[date] = rate;
         }
     }
 
-    if (_database.empty()) {
+    if (_database.empty()){ // What is wrong with this thing ??
         throw std::runtime_error("Error: database is empty or corrupted.");
     }
 }
@@ -165,22 +188,37 @@ void BitcoinExchange::processInput(const std::string &inputPath) const{
             continue;
         }
 
+
         float value;
-        // _parseValue returns false and prints the specific value errors internally if needed
-        if (!_parseValue(valStr, value, true)){
-            // If it failed but didn't print "not a positive number" or "too large",
-            // it means it was completely invalid syntax.
-            if (value != -1 && valStr.find_first_not_of(" \t\n\r\f\v") != std::string::npos){
-                char* endptr;
-                double val = std::strtod(valStr.c_str(), &endptr);
-                (void)val;
-                while (*endptr != '\0' && std::isspace(*endptr)) endptr++;
-                if (*endptr != '\0'){
-                    std::cerr << BAD_INPUT << line << "\n";
-                }
-            }
+        ParseStatus status = _parseValue(valStr, value, true);
+
+        if (status == NOT_POSITIVE) {
+            std::cerr << "Error: not a positive number.\n";
+            continue;
+        } else if (status == TOO_LARGE) {
+            std::cerr << "Error: too large a number.\n";
+            continue;
+        } else if (status == BAD_FORMAT) {
+            std::cerr << BAD_INPUT << line << "\n";
             continue;
         }
+
+        // float value;
+        // // _parseValue returns false and prints the specific value errors internally if needed
+        // if (!_parseValue(valStr, value, true)){
+        //     // If it failed but didn't print "not a positive number" or "too large",
+        //     // it means it was completely invalid syntax.
+        //     if (value != -1 && valStr.find_first_not_of(" \t\n\r\f\v") != std::string::npos){
+        //         char* endptr;
+        //         double val = std::strtod(valStr.c_str(), &endptr);
+        //         (void)val;
+        //         while (*endptr != '\0' && std::isspace(*endptr)) endptr++;
+        //         if (*endptr != '\0'){
+        //             std::cerr << BAD_INPUT << line << "\n";
+        //         }
+        //     }
+        //     continue;
+        // }
 
         std::map<std::string, float>::const_iterator it = _database.upper_bound(date);
         if (it == _database.begin()){

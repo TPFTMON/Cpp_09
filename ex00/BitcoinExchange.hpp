@@ -21,9 +21,17 @@ class BitcoinExchange{
 
         std::string _trim(const std::string &str) const;
         bool _isValidDate(const std::string &date) const;
-        bool _parseValue(const std::string &valStr, float &value, bool isInput) const;
+        // bool _parseValue(const std::string &valStr, float &value, bool isInput) const;
 
-    public:
+        enum ParseStatus {
+            VALID,
+            NOT_POSITIVE,
+            TOO_LARGE,
+            BAD_FORMAT
+        };
+        ParseStatus _parseValue(const std::string &valStr, float &value, bool isInput) const;
+
+        public:
         // Orthodox Canonical Form:
         BitcoinExchange();
         BitcoinExchange(const BitcoinExchange &other);
@@ -34,10 +42,13 @@ class BitcoinExchange{
         ~BitcoinExchange();
 
 
+        // Enum for distincting statuses
+
         // Other member functions:
         void loadDatabase(const std::string &dbPath);
         void processInput(const std::string &inputPath) const;
 
 };
+
 
 #endif

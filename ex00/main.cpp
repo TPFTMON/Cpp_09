@@ -7,7 +7,7 @@ int main(int argc, char const *argv[]){
         return (1);
     }
 
-    try {
+    try{
         BitcoinExchange btc;
         btc.loadDatabase("data.csv");
         btc.processInput(argv[1]);
@@ -15,7 +15,7 @@ int main(int argc, char const *argv[]){
         std::cerr << e.what() << "\n";
         return (1);
     }
-    
+
     return (0);
 }
 
