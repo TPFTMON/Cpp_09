@@ -21,8 +21,8 @@ class BitcoinExchange{
 
         std::string _trim(const std::string &str) const;
         bool _isValidDate(const std::string &date) const;
-        // bool _parseValue(const std::string &valStr, float &value, bool isInput) const;
 
+        // Enum for distincting statuses
         enum ParseStatus {
             VALID,
             NOT_POSITIVE,
@@ -41,8 +41,6 @@ class BitcoinExchange{
 
         ~BitcoinExchange();
 
-
-        // Enum for distincting statuses
 
         // Other member functions:
         void loadDatabase(const std::string &dbPath);

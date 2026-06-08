@@ -89,40 +89,6 @@ BitcoinExchange::ParseStatus BitcoinExchange::_parseValue(const std::string &val
     return (VALID);
 }
 
-// bool BitcoinExchange::_parseValue(const std::string &valStr, float &value, bool isInput) const{
-
-//     if (valStr.empty()) return (false);
-
-//     char* endptr;
-//     double val = std::strtod(valStr.c_str(), &endptr);
-
-//     while (*endptr != '\0' && std::isspace(*endptr)){
-//         endptr++;
-//     }
-
-//     if (*endptr != '\0'){
-//         return (false); // Contains non-numeric junk
-//     }
-
-//     if (isInput){
-//         if (val < 0){
-//             std::cerr << "Error: not a positive number. " << "\n";
-//             return (false);
-//         }
-//         if (val > 1000.0){
-//             std::cerr << "Error: too large a number. " << "\n";
-//             return (false);
-//         }
-//     } else {
-//         if (val < 0){
-//             return (false); // DB shouldn't have negative prices
-//         }
-//     }
-
-//     value = static_cast<float>(val);
-//     return (true);
-// }
-
 
 
 void BitcoinExchange::loadDatabase(const std::string &dbPath){
@@ -202,23 +168,6 @@ void BitcoinExchange::processInput(const std::string &inputPath) const{
             std::cerr << BAD_INPUT << line << "\n";
             continue;
         }
-
-        // float value;
-        // // _parseValue returns false and prints the specific value errors internally if needed
-        // if (!_parseValue(valStr, value, true)){
-        //     // If it failed but didn't print "not a positive number" or "too large",
-        //     // it means it was completely invalid syntax.
-        //     if (value != -1 && valStr.find_first_not_of(" \t\n\r\f\v") != std::string::npos){
-        //         char* endptr;
-        //         double val = std::strtod(valStr.c_str(), &endptr);
-        //         (void)val;
-        //         while (*endptr != '\0' && std::isspace(*endptr)) endptr++;
-        //         if (*endptr != '\0'){
-        //             std::cerr << BAD_INPUT << line << "\n";
-        //         }
-        //     }
-        //     continue;
-        // }
 
         std::map<std::string, float>::const_iterator it = _database.upper_bound(date);
         if (it == _database.begin()){

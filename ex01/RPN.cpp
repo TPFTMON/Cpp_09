@@ -6,20 +6,18 @@
 
 RPN::RPN(){
 
-    std::cout << DEF_CONSTR_MSG << RPN_MSG;
 
 }
 
 RPN::RPN(const RPN &to_copy){
 
-    std::cout << COPY_CONSTR_MSG << RPN_MSG;
+    (void)to_copy;
     // ... copying
 
 }
 
 RPN& RPN::operator=(const RPN &assign){
 
-    std::cout << COPY_ASSIGN_OP_MSG << RPN_MSG;
     if (this != &assign){
         // ... assigning
     }
@@ -29,7 +27,6 @@ RPN& RPN::operator=(const RPN &assign){
 
 RPN::~RPN(){
 
-    std::cout << DESTR_MSG << RPN_MSG;
 
 }
 
