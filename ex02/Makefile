@@ -1,6 +1,6 @@
-NAME		= 
+NAME		= PmergeMe
 
-SRCS		=
+SRCS		= main.cpp PmergeMe.cpp
 
 OBJ_DIR		= obj
 

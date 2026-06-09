@@ -4,22 +4,16 @@
 //                         ORTHODOX BASE
 // ================================================================
 
-PmergeMe::PmergeMe(){
-
-    std::cout << DEF_CONSTR_MSG << PMERGEME_MSG;
-
-}
+PmergeMe::PmergeMe(){}
 
 PmergeMe::PmergeMe(const PmergeMe &to_copy){
 
-    std::cout << COPY_CONSTR_MSG << PMERGEME_MSG;
     // ... copying
 
 }
 
 PmergeMe& PmergeMe::operator=(const PmergeMe &assign){
 
-    std::cout << COPY_ASSIGN_OP_MSG << PMERGEME_MSG;
     if (this != &assign){
         // ... assigning
     }
@@ -27,11 +21,7 @@ PmergeMe& PmergeMe::operator=(const PmergeMe &assign){
 
 }
 
-PmergeMe::~PmergeMe(){
-
-    std::cout << DESTR_MSG << PMERGEME_MSG;
-
-}
+PmergeMe::~PmergeMe(){}
 
 
 
