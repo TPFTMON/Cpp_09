@@ -6,19 +6,17 @@
 
 PmergeMe::PmergeMe(){}
 
-PmergeMe::PmergeMe(const PmergeMe &to_copy){
+PmergeMe::PmergeMe(const PmergeMe &other){
 
     // ... copying
-
 }
 
-PmergeMe& PmergeMe::operator=(const PmergeMe &assign){
+PmergeMe& PmergeMe::operator=(const PmergeMe &other){
 
-    if (this != &assign){
+    if (this != &other){
         // ... assigning
     }
     return (*this);
-
 }
 
 PmergeMe::~PmergeMe(){}

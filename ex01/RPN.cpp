@@ -44,8 +44,8 @@ RPN::Status    RPN::doRPN(char **argv){
                 std::cerr << "Error" << "\n";
                 return (ERROR);
             }
-            int rhs = rpnStack.top(); rpnStack.pop();
-            int lhs = rpnStack.top(); rpnStack.pop();
+            int rhs = rpnStack.top(); rpnStack.pop(); // RIGHT Hand Side
+            int lhs = rpnStack.top(); rpnStack.pop(); // LEFT Hand Side
 
             if (token == "+") rpnStack.push(lhs + rhs);
             else if (token == "-") rpnStack.push(lhs - rhs);
