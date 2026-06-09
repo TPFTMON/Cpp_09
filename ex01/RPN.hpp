@@ -21,12 +21,17 @@ class RPN{
     public:
         // Orthodox Canonical Form:
         RPN();
-        RPN(const RPN &to_copy);
-        RPN& operator=(const RPN &assign);
+        RPN(const RPN &other);
+        RPN& operator=(const RPN &other);
         ~RPN();
 
         // Other member functions:
-        // ... some members
+        enum Status {
+            OKI,
+            ERROR
+        };
+
+        Status  doRPN(char **argv);
 
 };
 
