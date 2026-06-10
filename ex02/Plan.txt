@@ -1,0 +1,41 @@
+Plan for PmergeMe:
+
+
+STAGE 1: Input Parsing & Validation
+    Goal: Convert incoming command-line strings into raw tracking containers.
+
+    Execution: Loop through argv beginning at index 1. Split compound strings if numbers are space-separated, check that every character is a digit, ensure values are positive integers, and verify no integer overflows occur.
+
+
+STAGE 2: Implementation for Container A (std::vector)
+    Goal: Sort elements using a dedicated vector pairing logic.
+
+    Execution:
+
+        Step 2.1: If the element count is $\le 1$, return.
+
+        Step 2.2: Pair up adjacent elements. If the collection size is odd, cache the last item as a straggler.
+
+        Step 2.3: Compare elements within each pair. Store them as a std::vector<std::pair<int, int> > where pair.first holds the larger value (Primary) and pair.second holds the smaller value (Secondary).
+
+        Step 2.4: Recursively call your Ford-Johnson sort on this vector of pairs, defining custom comparison logic that sorts the structures based strictly on pair.first.
+
+        Step 2.5: Once the recursive call unwinds, the pairs are sorted by their primaries. Extract all pair.first elements to initialize your MainChain vector.
+
+        Step 2.6: Insert the first secondary element (pairs[0].second) at the very beginning of MainChain (index 0).
+
+        Step 2.7: Iterate through the remaining secondary elements using the reverse Jacobsthal block index chunks ($b_3, b_2$, then $b_5, b_4$, etc.). For each element, find its associated primary's position in the current MainChain to set the upper search limit, execute std::lower_bound, and call MainChain.insert().
+
+        Step 2.8: If a straggler was cached in step 2.2, perform a final binary search across the entire MainChain and insert it.
+
+
+?
+STAGE 3: Duplicating Implementation for Container B (std::deque) (?) I am not sure I want to do the second Implementation I would like to just to do a generic solution :)
+    Goal: Avoid generic template shortcuts to satisfy the instruction: "It is strongly advised to implement your algorithm for each container and thus to avoid using a generic function."
+    Execution: Replicate the exact geometric logic from Stage 2 using a std::deque<std::pair<int, int> > and a std::deque<int> for the main chain.
+?
+
+
+STAGE 4: Instrumentation and Precise Timing Output
+    Goal: Capture data preparation and sorting metrics.
+    Execution: Wrap your execution steps in high-precision microsecond timing blocks. In C++98, this is best accomplished using gettimeofday from <sys/time.h>.
