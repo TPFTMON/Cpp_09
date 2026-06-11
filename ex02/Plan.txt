@@ -18,9 +18,9 @@ STAGE 2: Implementation for Container A (std::vector)
 
         Step 2.3: Compare elements within each pair. Store them as a std::vector<std::pair<int, int> > where pair.first holds the larger value (Primary) and pair.second holds the smaller value (Secondary).
 
-        Step 2.4: Recursively call your Ford-Johnson sort on this vector of pairs, defining custom comparison logic that sorts the structures based strictly on pair.first.
+        Step 2.4: Recursively call Ford-Johnson sort on this vector of pairs, defining custom comparison logic that sorts the structures based strictly on pair.first.
 
-        Step 2.5: Once the recursive call unwinds, the pairs are sorted by their primaries. Extract all pair.first elements to initialize your MainChain vector.
+        Step 2.5: Once the recursive call unwinds, the pairs are sorted by their primaries. Extract all pair.first elements to initialize MainChain vector.
 
         Step 2.6: Insert the first secondary element (pairs[0].second) at the very beginning of MainChain (index 0).
 
@@ -31,11 +31,11 @@ STAGE 2: Implementation for Container A (std::vector)
 
 ?
 STAGE 3: Duplicating Implementation for Container B (std::deque) (?) I am not sure I want to do the second Implementation I would like to just to do a generic solution :)
-    Goal: Avoid generic template shortcuts to satisfy the instruction: "It is strongly advised to implement your algorithm for each container and thus to avoid using a generic function."
+    Goal: Avoid generic template shortcuts to satisfy the instruction: "It is strongly advised to implement algorithm for each container and thus to avoid using a generic function."
     Execution: Replicate the exact geometric logic from Stage 2 using a std::deque<std::pair<int, int> > and a std::deque<int> for the main chain.
 ?
 
 
 STAGE 4: Instrumentation and Precise Timing Output
     Goal: Capture data preparation and sorting metrics.
-    Execution: Wrap your execution steps in high-precision microsecond timing blocks. In C++98, this is best accomplished using gettimeofday from <sys/time.h>.
+    Execution: Wrap  execution steps in high-precision microsecond timing blocks. In C++98, this is best accomplished using gettimeofday from <sys/time.h>.

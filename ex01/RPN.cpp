@@ -47,16 +47,24 @@ RPN::Status    RPN::doRPN(char **argv){
             int rhs = rpnStack.top(); rpnStack.pop(); // RIGHT Hand Side
             int lhs = rpnStack.top(); rpnStack.pop(); // LEFT Hand Side
 
-            if (token == "+") rpnStack.push(lhs + rhs);
-            else if (token == "-") rpnStack.push(lhs - rhs);
-            else if (token == "*") rpnStack.push(lhs * rhs);
+            long result = 0;
+            if (token == "+") result = static_cast<long>(lhs) + static_cast<long>(rhs);
+            else if (token == "-") result = static_cast<long>(lhs) - static_cast<long>(rhs);
+            else if (token == "*") result = static_cast<long>(lhs) * static_cast<long>(rhs);
             else if (token == "/"){
                 if (rhs == 0){
                     std::cerr << "Error: Division by zero." << "\n";
                     return (ERROR);
                 }
-                rpnStack.push(lhs / rhs);
+                result = static_cast<long>(lhs) / static_cast<long>(rhs);
             }
+
+            if (result > 2147483647 || result < -2147483648) {
+                std::cerr << "Error: Integer overflow detected." << std::endl;
+                return (ERROR);
+            }
+            rpnStack.push(static_cast<int>(result));
+
         } else{
             std::cerr << "Error" << "\n";
             return (ERROR);

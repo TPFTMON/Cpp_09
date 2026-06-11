@@ -37,7 +37,7 @@ class BitcoinExchange{
         BitcoinExchange(const BitcoinExchange &other);
 
         void swap(BitcoinExchange &other);
-        BitcoinExchange& operator=(BitcoinExchange other);
+        BitcoinExchange& operator=(BitcoinExchange &other);
 
         ~BitcoinExchange();
 

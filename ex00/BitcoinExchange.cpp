@@ -7,7 +7,7 @@
 BitcoinExchange::BitcoinExchange() {}
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &other){
-    *this = other;
+    this->_database = other._database;
 }
 
 
@@ -15,8 +15,11 @@ void BitcoinExchange::swap(BitcoinExchange &other){
     this->_database.swap(other._database);
 }
 
-BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange other){
-    swap(other);
+BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange &other){
+    if (this != &other) {
+        BitcoinExchange temp(other);
+        this->swap(temp);
+    }
     return (*this);
 };
 
@@ -116,7 +119,7 @@ void BitcoinExchange::loadDatabase(const std::string &dbPath){
         }
     }
 
-    if (_database.empty()){ // What is wrong with this thing ??
+    if (_database.empty()){
         throw std::runtime_error("Error: database is empty or corrupted.");
     }
 }
