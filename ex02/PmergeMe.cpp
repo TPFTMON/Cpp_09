@@ -38,6 +38,44 @@ void PmergeMe::_swapBlocks(std::vector<int>& target, size_t i, size_t j, size_t 
     }
 }
 
+void PmergeMe::_insertSecondariesVector(size_t blockSize){
+    // 1. Separate current memory layout into discrete block vectors
+    std::vector<std::vector<int> > mainChain;
+    std::vector<std::vector<int> > pendingChain;
+
+    // The first pair's secondary is safely pushed to mainChain immediately
+    // Followed by pushing all sorted primaries to the mainChain...
+
+    // 2. Generate Jacobsthal sequence dynamically based on pendingChain.size()
+    std::vector<size_t> jacob;
+    jacob.push_back(1);
+    jacob.push_back(3);
+    while (jacob.back() < pendingChain.size()){
+        jacob.push_back(jacob.back() + 2 * jacob[jacob.size() - 2]);
+    }
+
+    // 3. Insertion Loop
+    size_t lastInsertedIdx = 0;
+    for (size_t i = 1; i < jacob.size(); ++i){
+        size_t targetJacob = jacob[i];
+        // Ensure we don't overshoot the size of our pending elements
+        size_t startIdx = std::min(targetJacob, pendingChain.size()) - 1;
+        size_t endIdx = lastInsertedIdx;
+
+        // Iterate backwards from the Jacobsthal boundary down to the last inserted index
+        for (size_t j = startIdx; j > endIdx; --j){
+            // Calculate upper bound: where is this secondary's primary located in mainChain?
+            // Perform std::lower_bound up to that upper bound index
+            // mainChain.insert(iterator, pendingChain[j]);
+        }
+        lastInsertedIdx = startIdx + 1;
+    }
+
+    // 4. Handle Straggler block if one existed at this level
+
+    // 5. Flatten mainChain back into the original _vectorData
+}
+
 void PmergeMe::_sortVector(size_t blockSize){
 
     // Step 1: If the size of the block is bigger than all elements, return.
@@ -48,6 +86,7 @@ void PmergeMe::_sortVector(size_t blockSize){
     //         where pair.first holds the larger value (Primary) and pair.second holds the smaller value (Secondary).
 
     // Step 4: Recursively call Ford-Johnson sort on this vector of pairs, defining custom comparison logic that sorts the structures based strictly on pair.first.
+    //         Be ready to catch straggler at any time
 
     // Step 5: Once the recursive call unwinds, the pairs are sorted by their primaries. Extract all pair.first elements to initialize MainChain vector.
 
@@ -65,8 +104,6 @@ void PmergeMe::_sortVector(size_t blockSize){
     // Step 1:
     if (blockSpan > totalElements) return ;
 
-    // Catch the straggler here ? Then pair up
-
     // Step 2: Pair up blocks and ensure the larger primary block is placed first
     for (size_t i = 0; i + blockSpan <= totalElements; i += blockSpan){
         size_t primaryLI = i + blockSize;  // LI = Lead Index
@@ -76,13 +113,13 @@ void PmergeMe::_sortVector(size_t blockSize){
         if (_vectorData[secondaryLI + blockSize - 1] > _vectorData[primaryLI + blockSize - 1]){
             _swapBlocks(_vectorData, secondaryLI, primaryLI, blockSize);
         }
-
     }
 
     // Step 4: Recursively sort the primary blocks
     _sortVector(blockSpan);
 
-    // Step : Implement Jacobsthal binary insertion back into the chain
+    // Step 5-8: Implement Jacobsthal binary insertion back into the chain
+    _insertSecondariesVector(blockSize);
     // Extract your block references, calculate Jacobsthal indexes,
     // and use std::lower_bound with a custom range comparator over the block intervals.
 }

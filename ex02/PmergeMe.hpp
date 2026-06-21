@@ -24,6 +24,10 @@ class PmergeMe{
         void _swapBlocks(std::vector<int> &target, size_t i, size_t j, size_t size);
         void _swapBlocks(std::deque<int> &target, size_t i, size_t j, size_t size);
 
+        // Helper to insert the secondary chain into the primary with Jacobsthal numbers:
+        void _insertSecondariesVector(size_t blockSize);
+        void _insertSecondariesDeque (size_t blockSize);
+
         // Separate, distinct execution trees. I MIGHT just do each of the containers differently.
         void _sortVector(size_t blockSize);
         void _sortDeque(size_t blockSize);
