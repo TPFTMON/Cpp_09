@@ -20,13 +20,13 @@ class PmergeMe{
         std::vector<int> _vectorData;
         std::deque<int>  _dequeData;
 
-        // Separate, distinct execution trees to satisfy evaluation guidelines
-        void _sortVector(size_t blockSize);
-        void _sortDeque(size_t blockSize);
-
         // Helpers to swap chunks of memory of variable block sizes
         void _swapBlocks(std::vector<int> &target, size_t i, size_t j, size_t size);
         void _swapBlocks(std::deque<int> &target, size_t i, size_t j, size_t size);
+
+        // Separate, distinct execution trees. I MIGHT just do each of the containers differently.
+        void _sortVector(size_t blockSize);
+        void _sortDeque(size_t blockSize);
 
     public:
         // Orthodox Canonical Form:
