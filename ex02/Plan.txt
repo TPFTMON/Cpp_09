@@ -13,23 +13,7 @@ STAGE 2: Implementation for Container A (std::vector)
 
     Execution:
 
-        Step 2.1: If the element count is $\le 1$, return.
-
-        Step 2.2: Pair up adjacent elements. If the collection size is odd, cache the last item as a straggler.
-
-        Step 2.3: Compare elements within each pair. Store them as a std::vector<std::pair<int, int> >
-                  where pair.first holds the larger value (Primary) and pair.second holds the smaller value (Secondary).
-
-        Step 2.4: Recursively call Ford-Johnson sort on this vector of pairs, defining custom comparison logic that sorts the structures based strictly on pair.first.
-
-        Step 2.5: Once the recursive call unwinds, the pairs are sorted by their primaries. Extract all pair.first elements to initialize MainChain vector.
-
-        Step 2.6: Insert the first secondary element (pairs[0].second) at the very beginning of MainChain (index 0).
-
-        Step 2.7: Iterate through the remaining secondary elements using the reverse Jacobsthal block index chunks ($b_3, b_2$, then $b_5, b_4$, etc.).
-                  For each element, find its associated primary's position in the current MainChain to set the upper search limit, execute std::lower_bound, and call MainChain.insert().
-
-        Step 2.8: If a straggler was cached in step 2.2, perform a final binary search across the entire MainChain and insert it.
+    // In progress
 
 
 STAGE 3: Duplicating Implementation for Container B (std::deque)

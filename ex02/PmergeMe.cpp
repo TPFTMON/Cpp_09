@@ -30,13 +30,7 @@ PmergeMe::~PmergeMe(){}
 // Private:
 
 //                 ========== VECTOR ==========
-
-// The purpose of this function is to swap as many parts of the containers as we want.
-void PmergeMe::_swapBlocks(std::vector<int>& target, size_t i, size_t j, size_t size){
-    for (size_t k = 0; k < size; ++k){
-        std::swap(target[i + k], target[j + k]);
-    }
-}
+// I don't want to do the version with whole blocks swapping. I will do the classic way. More or less pure Ford-Johnson and Jacobsthal
 
 void PmergeMe::_insertSecondariesVector(size_t blockSize){
     // 1. Separate current memory layout into discrete block vectors
@@ -141,6 +135,13 @@ void PmergeMe::_sortVector(size_t blockSize){
 
 
 
+
+// The purpose of this function is to swap as many parts of the containers as we want.
+// void PmergeMe::_swapBlocks(std::vector<int>& target, size_t i, size_t j, size_t size){
+    // for (size_t k = 0; k < size; ++k){
+        // std::swap(target[i + k], target[j + k]);
+    // }
+// }
 
 
 // void PmergeMe::_sortVector(size_t blockSize){

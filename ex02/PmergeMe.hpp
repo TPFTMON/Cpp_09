@@ -20,10 +20,6 @@ class PmergeMe{
         std::vector<int> _vectorData;
         std::deque<int>  _dequeData;
 
-        // Helpers to swap chunks of memory of variable block sizes
-        void _swapBlocks(std::vector<int> &target, size_t i, size_t j, size_t size);
-        void _swapBlocks(std::deque<int> &target, size_t i, size_t j, size_t size);
-
         // Helper to insert the secondary chain into the primary with Jacobsthal numbers:
         void _insertSecondariesVector(size_t blockSize);
         void _insertSecondariesDeque (size_t blockSize);
