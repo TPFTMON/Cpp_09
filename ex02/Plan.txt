@@ -12,8 +12,23 @@ STAGE 2: Implementation for Container A (std::vector)
     Goal: Sort elements using a dedicated vector pairing logic.
 
     Execution:
+        Step 2.1: Block Level Pairing: Instead of treating elements individually, the recursion will accept a blockSize parameter.
+                  At depth 0, blockSize = 1. At depth 1, blockSize = 2. I will loop through the flat _vectorData array and swap adjacent chunks of memory to ensure the larger chunk (determined by its final element) is on the right.
 
-    // In progress
+        Step 2.2: Recursive Sorting: Call _sortVector(blockSize * 2). When this function returns, the "winning" chunks inside the flat array are guaranteed to be sorted.
+
+        Step 2.3: Parallel Extraction: Create two empty vectors of integers: mainChain and pendingChain.
+                  Crucially, create two corresponding size_t vectors: mainIDs and pendingIDs.
+                  Iterate through _vectorData by blockSize, extracting the "winner" chunks into mainChain and the "loser" chunks into pendingChain,
+                  assigning them matching IDs so they never lose their paired relationship.
+
+        Step 2.4: Custom Binary Search: Standard std::lower_bound cannot step by blockSize chunks.
+                  I will write a custom binary search that calculates midpoints based on block boundaries and only compares the final elements of those blocks.
+
+        Step 2.5: Jacobsthal Insertion: Generate the Jacobsthal index sequence. Iterate through the pendingChain in reverse blocks.
+                  For each element, look up its target ID in mainIDs to establish the strict upper bound, execute the custom binary search, and insert the block and its ID into mainChain and mainIDs.
+
+        Step 2.6: Flattening: Copy the fully assembled mainChain back into _vectorData, overwriting the memory with the newly sorted state for this recursion depth.
 
 
 STAGE 3: Duplicating Implementation for Container B (std::deque)

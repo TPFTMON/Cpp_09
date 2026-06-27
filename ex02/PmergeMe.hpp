@@ -20,6 +20,10 @@ class PmergeMe{
         std::vector<int> _vectorData;
         std::deque<int>  _dequeData;
 
+        // This helper function ensures we only compare the primary value (the last element) of each block.
+        size_t _binarySearchBlocksVector(const std::vector<int> &chain, int target, size_t endBlockIdx, size_t blockSize);
+        size_t _binarySearchBlocksDeque(const std::deque<int> &chain, int target, size_t endBlockIdx, size_t blockSize);
+
         // Helper to insert the secondary chain into the primary with Jacobsthal numbers:
         void _insertSecondariesVector(size_t blockSize);
         void _insertSecondariesDeque (size_t blockSize);
