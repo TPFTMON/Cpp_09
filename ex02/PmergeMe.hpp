@@ -40,7 +40,7 @@ class PmergeMe{
         ~PmergeMe();
 
         // Other member functions:
-        void parseInput(int argc, char** argv);
+        void parseInput(int argc, const char* argv[]);
         void executeAndTiming();
 
 };
