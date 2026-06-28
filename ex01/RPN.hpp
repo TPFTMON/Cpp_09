@@ -7,16 +7,11 @@
 # include <stack>
 # include <cstdlib>
 
-
-// Messages:
-// ...
-
-
 // Classes:
 class RPN{
 
     private:
-        // ... some private stuff
+        std::stack<int> _RPNStack;
 
     public:
         // Orthodox Canonical Form:
@@ -31,12 +26,9 @@ class RPN{
             ERROR
         };
 
-        Status  doRPN(char **argv);
+        Status  doRPN(const char *argv[]);
 
 };
 
-
-// Other:
-// ...
 
 #endif

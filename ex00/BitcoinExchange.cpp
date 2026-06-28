@@ -48,7 +48,7 @@ bool BitcoinExchange::_isValidDate(const std::string &date) const{
     if (date[4] != '-' || date[7] != '-') return (false);
 
     for (int i = 0; i < 10; ++i){
-        if (i == 4 || i == 7) continue;
+        if (i == 4 || i == 7) continue ;
         if (!std::isdigit(date[i])) return (false);
     }
 
@@ -105,10 +105,10 @@ void BitcoinExchange::loadDatabase(const std::string &dbPath){
     std::getline(file, line); // Skip header
 
     while (std::getline(file, line)){
-        if (line.empty()) continue;
+        if (line.empty()) continue ;
 
         size_t commaPos = line.find(',');
-        if (commaPos == std::string::npos) continue;
+        if (commaPos == std::string::npos) continue ;
 
         std::string date = _trim(line.substr(0, commaPos));
         std::string rateStr = _trim(line.substr(commaPos + 1));
@@ -136,17 +136,20 @@ void BitcoinExchange::processInput(const std::string &inputPath) const{
     bool isFirstLine = true;
 
     while (std::getline(file, line)){
-        if (line.empty()) continue;
+        if (line.empty()) continue ;
 
         if (isFirstLine){
             isFirstLine = false;
-            if (_trim(line) == "date | value") continue;
+            if (_trim(line) != "date | value"){
+                std::cerr << "Error: first line is of invalid format.\n";
+            }
+            continue ;
         }
 
         size_t pipePos = line.find('|');
         if (pipePos == std::string::npos){
             std::cerr << BAD_INPUT << line << "\n";
-            continue;
+            continue ;
         }
 
         std::string date = _trim(line.substr(0, pipePos));
@@ -154,7 +157,7 @@ void BitcoinExchange::processInput(const std::string &inputPath) const{
 
         if (!_isValidDate(date)){
             std::cerr << BAD_INPUT << date << "\n";
-            continue;
+            continue ;
         }
 
 
@@ -163,19 +166,19 @@ void BitcoinExchange::processInput(const std::string &inputPath) const{
 
         if (status == NOT_POSITIVE) {
             std::cerr << "Error: not a positive number.\n";
-            continue;
+            continue ;
         } else if (status == TOO_LARGE) {
             std::cerr << "Error: too large a number.\n";
-            continue;
+            continue ;
         } else if (status == BAD_FORMAT) {
             std::cerr << BAD_INPUT << line << "\n";
-            continue;
+            continue ;
         }
 
         std::map<std::string, float>::const_iterator it = _database.upper_bound(date);
         if (it == _database.begin()){
             std::cerr << "Error: date predates historical records => " << date << "\n";
-            continue;
+            continue ;
         }
 
         --it;

@@ -10,9 +10,6 @@
 # include <algorithm>
 
 
-// Messages:
-
-
 // Classes:
 class PmergeMe{
 
@@ -44,10 +41,6 @@ class PmergeMe{
         void executeAndTiming();
 
 };
-
-
-// Other:
-// ...
 
 
 #endif

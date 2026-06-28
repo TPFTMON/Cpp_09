@@ -15,33 +15,12 @@ PmergeMe& PmergeMe::operator=(const PmergeMe &other){
         _vectorData = other._vectorData;
         _dequeData = other._dequeData;
     }
-    return *this;
+    return (*this);
 }
 
 PmergeMe::~PmergeMe() {}
 
-// PmergeMe::PmergeMe(){}
 
-// PmergeMe::PmergeMe(const PmergeMe &other){
-
-//     // ... copying
-// }
-
-// PmergeMe& PmergeMe::operator=(const PmergeMe &other){
-
-//     if (this != &other){
-//         // ... assigning
-//     }
-//     return (*this);
-// }
-
-// PmergeMe::~PmergeMe(){}
-
-
-
-// ================================================================
-//                OTHER PMERGEME MEMBER FUNCTIONS
-// ================================================================
 
 // Private, SORTING:
 
@@ -429,10 +408,3 @@ void PmergeMe::executeAndTiming(){
     std::cout << "Time to process a range of " << _dequeData.size()
               << " elements with std::deque  : " << timeDeque << " us" << std::endl;
 }
-
-
-// ================================================================
-//                  OTHER PMERGEME FUNCTIONS
-// ================================================================
-
-// ... other functions
